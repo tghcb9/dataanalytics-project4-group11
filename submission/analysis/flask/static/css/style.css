@@ -221,6 +221,51 @@ header p {
     border-radius: 12px;
 }
 
+/* Tableau 2 Customization */
+.tableau2-page {
+    background-color: #0f0f0f;
+    color: #e6e6e6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.tableau2-page .card {
+    background-color: #1a1a1a;
+    color: #e6e6e6;
+    border: 1px solid #107C10;
+}
+
+.tableau2-page button.btn-primary {
+    background-color: #107C10;
+    border-color: #107C10;
+    color: #fff;
+}
+
+.tableau2-page button.btn-primary:hover {
+    background-color: #3BB143;
+    border-color: #3BB143;
+}
+
+.tableau2-page button.btn-danger {
+    background-color: #a00000;
+    border-color: #a00000;
+    color: #fff;
+}
+
+.tableau2-page button.btn-danger:hover {
+    background-color: #cc3333;
+    border-color: #cc3333;
+}
+
+.tableau2-page #tableauParent {
+    background-color: #0f0f0f;
+    padding: 20px;
+    border-radius: 12px;
+}
+
 footer {
     background-color: #2e2e33;
     color: #cfcfcf;
