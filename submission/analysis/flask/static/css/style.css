@@ -128,62 +128,10 @@ header p {
     background-color: #81a1c1 !important;
 }
 
-.table {
-    background-color: #2e2e33;
-    color: #eceff4;
-    border-radius: 10px;
-    border-collapse: separate;
-    border-spacing: 0 8px;
-}
-
-.table-hover tbody tr:hover {
-    background-color: #3b3b42 !important;
-}
-
-.table th {
-    background-color: #4c566a;
-    color: #eceff4;
-    padding: 10px;
-    text-align: left;
-}
-
-.table td {
-    padding: 10px;
-    background-color: #3b3b42;
-    border-top: 1px solid #4c566a;
-}
-
-#plot {
-    background-color: #2e2e33;
-    border: 3px solid #5e81ac;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-#sunburst {
-    background-color: #1a1a1d;
-    border: 3px solid #5e81ac;
-    padding: 20px;
-}
-
-.sunburst-title {
-    font-family: 'Segoe UI', sans-serif;
-    font-size: 26px;
-    font-weight: bold;
-    color: #cfcfcf;
-    text-align: center;
-    margin-top: 15px;
-}
-
-#map_container {
-    border: 5px solid #5e81ac;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.plotly .main-svg {
-    color: #eceff4;
+.team-member img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
 }
 
 .plotly .hovertext {
@@ -228,6 +176,49 @@ header p {
 .citation-list a:hover {
     text-decoration: underline;
     color: #a3d5ff;
+}
+
+/* Tableau 1 Customization */
+.tableau1-page {
+    background-color: #1b1123;
+    color: #e0c3fc;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.tableau1-page .card {
+    background-color: #2a103d;
+    color: #e0c3fc;
+    border: 1px solid #d6b3ff;
+}
+
+.tableau1-page button.btn-primary {
+    background-color: #8a2be2;
+    border-color: #8a2be2;
+}
+
+.tableau1-page button.btn-primary:hover {
+    background-color: #a566ff;
+    border-color: #a566ff;
+}
+
+.tableau1-page button.btn-danger {
+    background-color: #b03060;
+    border-color: #b03060;
+}
+
+.tableau1-page button.btn-danger:hover {
+    background-color: #d14780;
+    border-color: #d14780;
+}
+
+.tableau1-page #tableauParent {
+    background-color: #1b1123;
+    padding: 20px;
+    border-radius: 12px;
 }
 
 footer {
