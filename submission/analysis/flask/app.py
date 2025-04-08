@@ -1,14 +1,14 @@
 import pandas as pd
 from flask import Flask, jsonify, render_template, redirect, request
-from sqlHelper import SQLHelper  # Ensure sqlHelper.py is in the same directory
+from modelHelper import ModelHelper  # Ensure sqlHelper.py is in the same directory
 
 #################################################
 # Flask Setup
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0  # Remove caching
 
-# SQL Helper
-sqlHelper = SQLHelper()
+# Model Helper
+modelHelper = ModelHelper()
 
 #################################################
 # Flask Routes
@@ -18,13 +18,17 @@ sqlHelper = SQLHelper()
 def welcome():
     return render_template("index.html")
 
-@app.route("/dashboard")
-def dashboard():
-    return render_template("dashboard.html")
+@app.route("/model")
+def model():
+    return render_template("model.html")
 
-@app.route("/map")
-def map():
-    return render_template("map.html")
+@app.route("/tableau1")
+def tableau1():
+    return render_template("tableau1.html")
+
+@app.route("/tableau2")
+def tableau2():
+    return render_template("tableau2.html")
 
 @app.route("/about_us")
 def about_us():
@@ -38,41 +42,33 @@ def works_cited():
 # API Routes
 #################################################
 
-@app.route("/api/v1.0/bar_data/<country_input>")
-def bar_data(country_input):
-    # Execute queries
-    df = sqlHelper.queryBarData(country_input)
-    # Turn DataFrame into List of Dictionary
-    data = df.to_dict(orient="records")
-    return jsonify(data)
+@app.route("/predictions", methods=["POST"])
+def predictions():
+    content = request.json["data"]
+    print(content)
 
-@app.route("/api/v1.0/table_data")
-def table_data():
-    # Execute queries
-    df = sqlHelper.queryTableData()
-    # Turn DataFrame into List of Dictionary
-    data = df.to_dict(orient="records")
-    return jsonify(data)
+    # parse
+    name = content["name"]
+    platform = content["platform"]
+    Year = int(content["Year"])
+    Genre = content["Genre"]
+    Publisher = content["Publisher"]
+    NA = float(content["NA"])
+    EU = float(content["EU"])
+    JP = float(content["JP"])
+    Other = float(content["Other"])
+    Global = float(content["Global"])
+    Critic_Score = float(content["Critic_Score"])
+    Critic_Count = float(content["Critic_Count"])
+    User_Score = float(content["User_Score"])
+    Developer = content["Developer"]
+    Rating = content["Rating"]
 
-@app.route("/api/v1.0/burst_data")
-def burst_data():
-    # Execute queries
-    df = sqlHelper.queryBurstData()
-    # Turn DataFrame into List of Dictionary
-    data = df.to_dict(orient="records")
-    return jsonify(data)
+    preds = modelHelper.predictions(name, platform, Year, Genre, Publisher, 
+          NA, EU, JP, Other, Global, Critic_Score, Critic_Count, 
+          User_Score, Developer, Rating)
 
-@app.route("/api/v1.0/map_data")
-def map_data():
-    # Execute queries
-    df = sqlHelper.queryMapData()
-    # Turn DataFrame into List of Dictionary
-    data = df.to_dict(orient="records")
-    return jsonify(data)
-
-@app.route('/map')
-def map_page():
-    return render_template('map.html')  # This serves the map.html from the templates folder
+    return(jsonify({"ok": True, "prediction": str(preds)}))
 
 #############################################################
 
