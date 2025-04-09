@@ -178,6 +178,22 @@ header p {
     color: #a3d5ff;
 }
 
+/* Model Customization */
+.model-page h1,
+.model-page p {
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.model-page .card-header h5,
+.model-page .card-body label {
+    color: #f0f0f0;
+}
+
+.model-page .card-body label {
+    font-weight: bold;
+}
+
 /* Tableau 1 Customization */
 .tableau1-page {
     background-color: #1b1123;
