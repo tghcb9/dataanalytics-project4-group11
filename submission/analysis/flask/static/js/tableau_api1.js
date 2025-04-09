@@ -22,11 +22,7 @@ $(document).ready(function() {
 
 function initializeViz() {
     var placeholderDiv = document.getElementById("tableauViz");
-<<<<<<< Updated upstream
     var url = "https://public.tableau.com/shared/27H7DJJ9N?:display_count=n&:origin=viz_share_link";
-=======
-    var url = "https://public.tableau.com/shared/ZFYYJFCTD?:display_count=n&:origin=viz_share_link";
->>>>>>> Stashed changes
     var options = {
         // width: placeholderDiv.offsetWidth,
         // height: placeholderDiv.offsetHeight,
