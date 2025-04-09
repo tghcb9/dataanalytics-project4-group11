@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body>
+<body class="model-page">
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Game Recommender App</a>
@@ -33,6 +33,7 @@
                     <li class="nav-item"><a class="nav-link active" href="/model">Model</a></li>
                     <li class="nav-item"><a class="nav-link" href="/tableau1">Tableau 1</a></li>
                     <li class="nav-item"><a class="nav-link" href="/tableau2">Tableau 2</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/report">Report</a></li>
                     <li class="nav-item"><a class="nav-link" href="/about_us">About Us</a></li>
                     <li class="nav-item"><a class="nav-link" href="/works_cited">Sources</a></li>
                 </ul>
@@ -40,10 +41,123 @@
         </div>
     </nav>
     <h1>Model for Sales Predictor</h1>
-    
-    <footer class="text-white text-center py-3">
-        <p>&copy; 2025 Game Recommender App. All rights reserved.</p>
-    </footer>
+<!-- Machine Learning Application -->
+<div class="text-center container mt-4">
+    <p style="font-size:30px">Game Sales Predictor</p>
+    <hr>
+    <div class="card border-primary mb-3">
+        <div class="card-header"><h5><strong>Enter the following parameters for your game</strong></h5></div>
+        <div class="card-body">
+            <div class="row justify-content-center">
+                <!-- Genre -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="Genre">Genre:</label>
+                        <select id="Genre" class="form-control">
+                            <option value="Action">Action</option>
+                            <option value="Adventure">Adventure</option>
+                            <option value="Fighting">Fighting</option>
+                            <option value="Platform">Platformer</option>
+                            <option value="Puzzle">Puzzle</option>
+                            <option value="Racing">Racing</option>
+                            <option value="Role-Playing">Role-Playing</option>
+                            <option value="Shooter">Shooter</option>
+                            <option value="Simulation">Simulation</option>
+                            <option value="Sports">Sports</option>
+                            <option value="Strategy">Strategy</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Critic Score -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="Critic_Score">Critic Score:</label>
+                        <select id="Critic_Score" class="form-control">
+                            <option value="71"> Not Important</option>
+                            <option value="74">Mildly Important</option>
+                            <option value="78">Important</option>
+                            <option value="81">Very Important</option>
+                            <option value="85">Extremely Important</option>
+                            <option value="89">Most Important</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- User Score -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="User_Score">User Score:</label>
+                        <select id="User_Score" class="form-control">
+                            <option value="7.35"> Not Important</option>
+                            <option value="7.7">Mildly Important</option>
+                            <option value="8.0">Important</option>
+                            <option value="8.3">Very Important</option>
+                            <option value="8.6">Extremely Important</option>
+                            <option value="8.9">Most Important</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center mt-3">
+                <!-- Platform -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="platform">Platform:</label>
+                        <select id="platform" class="form-control">
+                            <option value="DC">Dreamcast</option>
+                            <option value="DS">DS</option>
+                            <option value="3DS">3DS</option>
+                            <option value="GBA">Gameboy Advanced</option>
+                            <option value="GC">GameCube</option>
+                            <option value="PC">PC</option>
+                            <option value="PS">PlayStation 1</option>
+                            <option value="PS2">PlayStation 2</option>
+                            <option value="PS3">PlayStation 3</option>
+                            <option value="PS4">PlayStation 4</option>
+                            <option value="PSP">PSP</option>
+                            <option value="PSV">PlayStation Vita</option>
+                            <option value="Wii">Wii</option>
+                            <option value="WiiU">WiiU</option>
+                            <option value="XB">Xbox</option>
+                            <option value="X360">Xbox 360</option>
+                            <option value="XOne">Xbox One</option>  
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Rating -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Rating">Rating:</label>
+                        <select id="Rating" class="form-control">
+                            <option value="E">Everyone</option>
+                            <option value="E10+">Everyone 10+</option>
+                            <option value="T">Teen</option>
+                            <option value="M">Mature</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button type="button" class="btn btn-primary" id="filter">Check Sales Prediction</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <hr>
+    <h2 id="output"></h2>
+
+    <div id="donut" style="width:400px; height:400px; margin:auto;"></div>
+</div>
+
+<footer class="text-white text-center py-3">
+    <p>&copy; 2025 Game Recommender App. All rights reserved.</p>
+</footer>
 
     <script>
         document.getElementById("menuToggle").addEventListener("click", function() {

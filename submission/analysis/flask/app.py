@@ -30,6 +30,10 @@ def tableau1():
 def tableau2():
     return render_template("tableau2.html")
 
+@app.route("/report")
+def report():
+    return render_template("report.html")
+
 @app.route("/about_us")
 def about_us():
     return render_template("about_us.html")

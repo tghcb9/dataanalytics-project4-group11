@@ -22,7 +22,7 @@ $(document).ready(function() {
 
 function initializeViz() {
     var placeholderDiv = document.getElementById("tableauViz");
-    var url = "https://public.tableau.com/shared/H9G74WBQT?:display_count=n&:origin=viz_share_link";
+    var url = "https://public.tableau.com/shared/27H7DJJ9N?:display_count=n&:origin=viz_share_link";
     var options = {
         // width: placeholderDiv.offsetWidth,
         // height: placeholderDiv.offsetHeight,
