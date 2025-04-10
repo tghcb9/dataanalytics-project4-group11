@@ -51,6 +51,7 @@ header h1 {
     font-weight: bold;
 }
 
+
 header p {
     font-size: 1.2rem;
 }
@@ -194,6 +195,11 @@ header p {
     font-weight: bold;
 }
 
+.model-page h4 {
+    color: #eceff4;
+    font-weight: bold;
+}
+
 /* Tableau 1 Customization */
 .tableau1-page {
     background-color: #1b1123;
@@ -280,6 +286,14 @@ header p {
     background-color: #0f0f0f;
     padding: 20px;
     border-radius: 12px;
+}
+
+#output {
+    color: #88c0d0;
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+    margin-top: 10px;
 }
 
 footer {

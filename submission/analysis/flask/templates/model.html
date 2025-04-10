@@ -8,10 +8,11 @@
     <title>Game Recommender App: Model</title>
     <!-- JS Imports -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.30.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/2.2.1/js/dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- CSS Imports -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -40,129 +41,221 @@
             </div>
         </div>
     </nav>
-    <h1>Model for Sales Predictor</h1>
-<!-- Machine Learning Application -->
-<div class="text-center container mt-4">
-    <p style="font-size:30px">Game Sales Predictor</p>
-    <hr>
-    <div class="card border-primary mb-3">
-        <div class="card-header"><h5><strong>Enter the following parameters for your game</strong></h5></div>
-        <div class="card-body">
-            <div class="row justify-content-center">
-                <!-- Genre -->
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="Genre">Genre:</label>
-                        <select id="Genre" class="form-control">
-                            <option value="Action">Action</option>
-                            <option value="Adventure">Adventure</option>
-                            <option value="Fighting">Fighting</option>
-                            <option value="Platform">Platformer</option>
-                            <option value="Puzzle">Puzzle</option>
-                            <option value="Racing">Racing</option>
-                            <option value="Role-Playing">Role-Playing</option>
-                            <option value="Shooter">Shooter</option>
-                            <option value="Simulation">Simulation</option>
-                            <option value="Sports">Sports</option>
-                            <option value="Strategy">Strategy</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Critic Score -->
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="Critic_Score">Critic Score:</label>
-                        <select id="Critic_Score" class="form-control">
-                            <option value="71"> Not Important</option>
-                            <option value="74">Mildly Important</option>
-                            <option value="78">Important</option>
-                            <option value="81">Very Important</option>
-                            <option value="85">Extremely Important</option>
-                            <option value="89">Most Important</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- User Score -->
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="User_Score">User Score:</label>
-                        <select id="User_Score" class="form-control">
-                            <option value="7.35"> Not Important</option>
-                            <option value="7.7">Mildly Important</option>
-                            <option value="8.0">Important</option>
-                            <option value="8.3">Very Important</option>
-                            <option value="8.6">Extremely Important</option>
-                            <option value="8.9">Most Important</option>
-                        </select>
-                    </div>
-                </div>
+    <main class="container my-5">
+        <h1 class="text-center mb-4">Predict Global Game Sales</h1>
+        <hr>
+        <div class="card border-primary mb-3">
+            <div class="text-center mb-4">
+                <li></li>
+                <p class="lead">Enter the details of your game below to estimate its chances of global sales success.</p>
+                <p class="text-muted">Select a genre, platform, rating, and provide scores and regional sales figures.</p>
             </div>
-
-            <div class="row justify-content-center mt-3">
-                <!-- Platform -->
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="platform">Platform:</label>
-                        <select id="platform" class="form-control">
-                            <option value="DC">Dreamcast</option>
-                            <option value="DS">DS</option>
-                            <option value="3DS">3DS</option>
-                            <option value="GBA">Gameboy Advanced</option>
-                            <option value="GC">GameCube</option>
-                            <option value="PC">PC</option>
-                            <option value="PS">PlayStation 1</option>
-                            <option value="PS2">PlayStation 2</option>
-                            <option value="PS3">PlayStation 3</option>
-                            <option value="PS4">PlayStation 4</option>
-                            <option value="PSP">PSP</option>
-                            <option value="PSV">PlayStation Vita</option>
-                            <option value="Wii">Wii</option>
-                            <option value="WiiU">WiiU</option>
-                            <option value="XB">Xbox</option>
-                            <option value="X360">Xbox 360</option>
-                            <option value="XOne">Xbox One</option>  
-                        </select>
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <!-- Critic Score -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="Critic_Score">Critic Score:</label>
+                            <select id="Critic_Score" class="form-control">
+                                <option value="71"> Not Important</option>
+                                <option value="74">Mildly Important</option>
+                                <option value="78">Important</option>
+                                <option value="81">Very Important</option>
+                                <option value="85">Extremely Important</option>
+                                <option value="89">Most Important</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- User Score -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="User_Score">User Score:</label>
+                            <select id="User_Score" class="form-control">
+                                <option value="7.35"> Not Important</option>
+                                <option value="7.7">Mildly Important</option>
+                                <option value="8.0">Important</option>
+                                <option value="8.3">Very Important</option>
+                                <option value="8.6">Extremely Important</option>
+                                <option value="8.9">Most Important</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Rating -->
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="Rating">Rating:</label>
-                        <select id="Rating" class="form-control">
-                            <option value="E">Everyone</option>
-                            <option value="E10+">Everyone 10+</option>
-                            <option value="T">Teen</option>
-                            <option value="M">Mature</option>
-                        </select>
+                <!-- Organized Filters Row -->
+                <div class="form-group mt-4">
+                    <div class="row g-3">
+                        <!-- Genre -->
+                        <div class="col-md-2">
+                            <label for="GenreSelect"><strong>Select Genre:</strong></label>
+                            <select id="GenreSelect" class="form-control">
+                                <option value="Genre_Action">Action</option>
+                                <option value="Genre_Adventure">Adventure</option>
+                                <option value="Genre_Fighting">Fighting</option>
+                                <option value="Genre_Misc">Misc</option>
+                                <option value="Genre_Platform">Platformer</option>
+                                <option value="Genre_Puzzle">Puzzle</option>
+                                <option value="Genre_Racing">Racing</option>
+                                <option value="Genre_Role-Playing">Role-Playing</option>
+                                <option value="Genre_Shooter">Shooter</option>
+                                <option value="Genre_Simulation">Simulation</option>
+                                <option value="Genre_Sports">Sports</option>
+                                <option value="Genre_Strategy">Strategy</option>
+                            </select>
+                        </div>
+
+                        <!-- Platform -->
+                        <div class="col-md-2">
+                            <label for="PlatformSelect"><strong>Select Platform:</strong></label>
+                            <select id="PlatformSelect" class="form-control">
+                                <option value="Platform_3DS">Nintendo 3DS</option>
+                                <option value="Platform_DC">Sega Dreamcast</option>
+                                <option value="Platform_DS">Nintendo DS</option>
+                                <option value="Platform_GBA">Game Boy Advance</option>
+                                <option value="Platform_GC">GameCube</option>
+                                <option value="Platform_PC">PC</option>
+                                <option value="Platform_PS">PlayStation</option>
+                                <option value="Platform_PS2">PlayStation 2</option>
+                                <option value="Platform_PS3">PlayStation 3</option>
+                                <option value="Platform_PS4">PlayStation 4</option>
+                                <option value="Platform_PSP">PSP</option>
+                                <option value="Platform_PSV">PlayStation Vita</option>
+                                <option value="Platform_Wii">Nintendo Wii</option>
+                                <option value="Platform_WiiU">Nintendo Wii U</option>
+                                <option value="Platform_X360">Xbox 360</option>
+                                <option value="Platform_XB">Original Xbox</option>
+                                <option value="Platform_XOne">Xbox One</option>
+                            </select>
+                        </div>
+
+                        <!-- Rating -->
+                        <div class="col-md-2">
+                            <label for="RatingSelect"><strong>Select Rating:</strong></label>
+                            <select id="RatingSelect" class="form-control">
+                                <option value="Rating_E">Everyone</option>
+                                <option value="Rating_E10+">Everyone 10+</option>
+                                <option value="Rating_M">Mature</option>
+                                <option value="Rating_T">Teen</option>
+                            </select>
+                        </div>
+
+                        <!-- Publisher -->
+                        <div class="col-md-4">
+                            <label for="PublisherSelect"><strong>Select Publisher:</strong></label>
+                            <select id="PublisherSelect" class="form-control">
+                                <option value="65">Electronic Arts</option>
+                                <option value="246">Ubisoft</option>
+                                <option value="11">Activision</option>
+                                <option value="208">Sony Computer Entertainment</option>
+                                <option value="229">THQ</option>
+                                <option value="167">Nintendo</option>
+                                <option value="205">Sega</option>
+                                <option value="232">Take-Two Interactive</option>
+                                <option value="128">Konami Digital Entertainment</option>
+                                <option value="162">Namco Bandai Games</option>
+                                <option value="38">Capcom</option>
+                                <option value="150">Microsoft Game Studios</option>
+                                <option value="235">Tecmo Koei</option>
+                                <option value="216">Square Enix</option>
+                                <option value="258">Warner Bros. Interactive Entertainment</option>
+                                <option value="42">Codemasters</option>
+                                <option value="55">Deep Silver</option>
+                                <option value="48">Bethesda Softworks</option>
+                                <option value="24">Atlus</option>
+                                <option value="125">Kalypso Media</option>
+                            </select>
+                        </div>
+
+                        <!-- Year -->
+                        <div class="col-md-2">
+                            <label for="Year" class="form-label">Year of Release</label>
+                            <input id="Year" type="number" class="form-control" placeholder="1985 to 2016" min="1985" max="2016" value="2016">
+                        </div>
+
+                        <!-- Regional Sales Priority Dropdowns -->
+                        <div class="form-group mt-4">
+                            <p class="text-center fs-5 fw-semibold mb-3 mt-4">
+                                Rank the regions by importance (1 = most important, 4 = least). Try to not make duplicates.
+                              </p>
+                            <div class="row">
+                                <!-- NA Sales -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="NA_Sales">NA Sales:</label>
+                                        <select id="NA_Sales" class="form-control">
+                                            <option value="0.9">1st Priority</option>
+                                            <option value="0.39">2nd Priority</option>
+                                            <option value="0.15">3rd Priority</option>
+                                            <option value="0.06">4th Priority</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- EU Sales -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="EU_Sales">EU Sales:</label>
+                                        <select id="EU_Sales" class="form-control">
+                                            <option value="0.53">1st Priority</option>
+                                            <option value="0.21" selected>2nd Priority</option>
+                                            <option value="0.06">3rd Priority</option>
+                                            <option value="0.02">4th Priority</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- JP Sales -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="JP_Sales">JP Sales:</label>
+                                        <select id="JP_Sales" class="form-control">
+                                            <option value="0.13">1st Priority</option>
+                                            <option value="0.01">2nd Priority</option>
+                                            <option value="0.0" selected>3rd Priority</option>
+                                            <option value="0.0">4th Priority</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Other Sales -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="Other_Sales">Other Sales:</label>
+                                        <select id="Other_Sales" class="form-control">
+                                            <option value=".18">1st Priority</option>
+                                            <option value=".07">2nd Priority</option>
+                                            <option value=".02">3rd Priority</option>
+                                            <option value=".01" selected>4th Priority</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-12 text-center">
+                        <button type="button" class="btn btn-primary" id="filter">Check Sales Prediction</button>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <button type="button" class="btn btn-primary" id="filter">Check Sales Prediction</button>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-    <hr>
-    <h2 id="output"></h2>
-
-    <div id="donut" style="width:400px; height:400px; margin:auto;"></div>
-</div>
+        <div class="text-center mt-5">
+            <h4 class="text-center mb-4">Predicted Global Sales</h4>
+            <canvas id="salesChart" width="200" height="200"></canvas>
+            <p id="output"></p>
+        </div>
+    </main>
 
 <footer class="text-white text-center py-3">
     <p>&copy; 2025 Game Recommender App. All rights reserved.</p>
 </footer>
 
-    <script>
-        document.getElementById("menuToggle").addEventListener("click", function() {
-            document.getElementById("navbarMenu").classList.toggle("show");
-        });
-    </script>
+    <!-- jQuery (needed by app.js) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Your JS -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>

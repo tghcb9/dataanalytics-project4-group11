@@ -1,14 +1,18 @@
-import pandas as pd
-from flask import Flask, jsonify, render_template, redirect, request
-from modelHelper import ModelHelper  # Ensure sqlHelper.py is in the same directory
+from flask import Flask, jsonify, request, render_template
+import pickle
+import numpy as np
+import os  # Ensure sqlHelper.py is in the same directory
+from modelHelper import ModelHelper
 
 #################################################
 # Flask Setup
 app = Flask(__name__)
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0  # Remove caching
-
-# Model Helper
-modelHelper = ModelHelper()
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))     
+# set file directory path
+MODEL_PATH = os.path.join(APP_ROOT, "App\global_sales_model_linear.pkl")  
+# set path to the model
+model = pickle.load(open(MODEL_PATH, 'rb')) 
+# load the pickled model
 
 #################################################
 # Flask Routes
@@ -19,7 +23,7 @@ def welcome():
     return render_template("index.html")
 
 @app.route("/model")
-def model():
+def model_page():
     return render_template("model.html")
 
 @app.route("/tableau1")
@@ -49,30 +53,12 @@ def works_cited():
 @app.route("/predictions", methods=["POST"])
 def predictions():
     content = request.json["data"]
-    print(content)
 
-    # parse
-    name = content["name"]
-    platform = content["platform"]
-    Year = int(content["Year"])
-    Genre = content["Genre"]
-    Publisher = content["Publisher"]
-    NA = float(content["NA"])
-    EU = float(content["EU"])
-    JP = float(content["JP"])
-    Other = float(content["Other"])
-    Global = float(content["Global"])
-    Critic_Score = float(content["Critic_Score"])
-    Critic_Count = float(content["Critic_Count"])
-    User_Score = float(content["User_Score"])
-    Developer = content["Developer"]
-    Rating = content["Rating"]
+    # Pass the entire input dictionary to ModelHelper
+    model_helper = ModelHelper(MODEL_PATH)
+    preds = model_helper.predictions(content)
 
-    preds = modelHelper.predictions(name, platform, Year, Genre, Publisher, 
-          NA, EU, JP, Other, Global, Critic_Score, Critic_Count, 
-          User_Score, Developer, Rating)
-
-    return(jsonify({"ok": True, "prediction": str(preds)}))
+    return jsonify({"prediction": preds})
 
 #############################################################
 
