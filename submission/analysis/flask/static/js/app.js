@@ -1,98 +1,108 @@
-// call Flask API endpoint
+// Sample genres/platforms/rating lists
+const genres = ["Action", "Adventure", "Fighting", "Misc", "Platform", "Puzzle", "Racing", "Role-Playing", "Shooter", "Simulation", "Sports", "Strategy"];
+const platforms = ["3DS", "DC", "DS", "GBA", "GC", "PC", "PS", "PS2", "PS3", "PS4", "PSP", "PSV", "Wii", "WiiU", "X360", "XB", "XOne"];
+const ratings = ["AO", "E", "E10+", "K-A", "M", "RP", "T", "Unknown"];
+
+// Call Flask API endpoint when button is clicked
+$(document).ready(function () {
+    $("#filter").click(function () {
+      predictions();
+    });
+});
+  
 function predictions() {
-    var name = $("#name").val();
-    var platform = $("#platform").val();
-    var Year = parseInt($("#Year").val());
-    var Genre = $("#Genre").val();
-    var Publisher = $("#Publisher").val();
-    var NA = parseFloat($("#NA").val());
-    var EU = parseFloat($("#EU").val());
-    var JP = parseFloat($("#JP").val());
-    var Other = parseFloat($("#Other").val());
-    var Global = parseFloat($("#Global").val());
-    var Critic_Score = parseFloat($("#Critic_Score").val());
-    var Critic_Count = parseFloat($("#Critic_Count").val());
-    var User_Score = parseFloat($("#User_Score").val());
-    var Developer = $("#Developer").val();
-    var Rating = $("#Rating").val();
-
-  // create the payload
-  var payload = {
-    "name": name,
-    "platform": platform,
-    "Year": Year,
-    "Genre": Genre,
-    "Publisher": Publisher,
-    "NA": NA,
-    "EU": EU,
-    "JP": JP,
-    "Other": Other,
-    "Global": Global,
-    "Critic_Score": Critic_Score,
-    "Critic_Count": Critic_Count,
-    "User_Score": User_Score,
-    "Developer": Developer,
-    "Rating": Rating
-  };
-
-  // Perform a POST request to the query URL
-  $.ajax({
+    let payload = {};
+  
+    // Get selected dropdown values for genre, platform, and rating
+    const selectedGenre = $("#GenreSelect").val();
+    const selectedPlatform = $("#PlatformSelect").val();
+    const selectedRating = $("#RatingSelect").val();
+  
+    // Set the selected options to true in the payload
+    payload[selectedGenre] = true;
+    payload[selectedPlatform] = true;
+    payload[selectedRating] = true;
+  
+    // Add numeric inputs from form
+    payload["Publisher"] = parseInt($("#PublisherSelect").val());
+    payload["Year of Release"] = parseInt($("#Year").val());
+    payload["Critic Score"] = parseFloat($("#Critic_Score").val());
+    payload["User Score"] = parseFloat($("#User_Score").val());
+  
+    // Regional priorities (simulate as proxy sales weight)
+    payload["NA Sales"] = parseFloat($("#NA_Sales").val());
+    payload["EU Sales"] = parseFloat($("#EU_Sales").val());
+    payload["JP Sales"] = parseFloat($("#JP_Sales").val());
+    payload["Other Sales"] = parseFloat($("#Other_Sales").val());
+  
+    // POST request to Flask backend
+    $.ajax({
       type: "POST",
       url: "/predictions",
       contentType: 'application/json;charset=UTF-8',
-      data: JSON.stringify({ "data": payload }),
-      success: function(returnedData) {
-          // print it for debugging
-          console.log(returnedData);
-          var prob = parseFloat(returnedData["prediction"]);
-
-          if (prob > 0.5) {
-              $("#output").text(`The passenger is likely to be satisfied with the flight with a satisfaction rating of ${(prob * 100).toFixed(2)}%!!`);
-          } else {
-              $("#output").text(`Unfortunately, the passenger is unlikely to be satisfied with the flight with a satisfaction rating of ${(prob * 100).toFixed(2)}%!.`);
-          }
-
-          // Call buildDonut function
-          buildDonut(prob)
-
+      data: JSON.stringify({ data: payload }),
+      success: function (returnedData) {
+        const sales = parseFloat(returnedData["prediction"]);
+        $("#output").text(`Estimated global sales: ${sales.toFixed(2)} million units`);
+        buildSalesBar(sales);
       },
-      error: function(XMLHttpRequest, textStatus, errorThrown) {
-          alert("Status: " + textStatus);
-          alert("Error: " + errorThrown);
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+        alert("Status: " + textStatus);
+        alert("Error: " + errorThrown);
       }
-  });
-
+    });
 }
 
-
-function buildDonut(prob) {
-  // Data
-  var satis = prob;
-  var unsatis = 1 - prob;
-
-  var data = [{
-      values: [satis, unsatis],
-      labels: ['Satisfied', 'Unsatisfied or Neutral'],
-      hole: .5,
-      marker: {
-          colors: ['#45CAFF', '#FF1B6B']
+let chartInstance = null;
+  
+function buildSalesBar(sales) {
+    const ctx = document.getElementById("salesChart").getContext("2d");
+  
+    if (chartInstance) {
+      chartInstance.destroy();
+    }
+  
+    chartInstance = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: ["Global Sales (millions)"],
+        datasets: [{
+          data: [sales],
+          backgroundColor: getColorForSales(sales),
+          borderWidth: 1
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        scales: {
+          x: {
+            min: 0,
+            max: 5, // Adjust depending on your dataset scale
+            title: {
+              display: true,
+              text: "Million Units Sold"
+            }
+          }
         },
-      textinfo: "label+percent",
-      type: 'pie'
-  }];
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                return `${context.raw.toFixed(2)} million units`;
+              }
+            }
+          }
+        }
+      }
+    });
+  }
   
-  var layout = {
-      annotations: [{
-          font: { size: 30 },
-          showarrow: false,
-          text: 'Satisfaction',
-          x: 0.5,
-          y: 0.5
-      }],
-      height: 800,
-      width: 1200,
-      showlegend: false
-  };
-  
-  Plotly.newPlot('donut', data, layout);  
-};
+  // Helper function to pick bar color
+  function getColorForSales(sales) {
+    if (sales < .5) return "#e74c3c";    // Red
+    if (sales < 1) return "#f39c12";    // Orange
+    if (sales < 1.5) return "#f1c40f";    // Yellow
+    if (sales < 2) return "#2ecc71";    // Light Green
+    return "#27ae60";                    // Dark Green
+  }
