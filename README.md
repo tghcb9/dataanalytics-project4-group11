@@ -1,5 +1,5 @@
-# MSUDA-project4-group11
-MSU Data Analytics Project 4 (Group 11)
+# dataanalytics-project4-group11
+Data Analytics Project 4 (Group 11)
 
 # Executive Summary
 ## Dataset
